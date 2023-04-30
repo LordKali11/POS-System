@@ -38,6 +38,8 @@ public class Menu extends javax.swing.JFrame {
         cancel_button = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Login Page");
+        setLocationByPlatform(true);
 
         jLabel1.setText("Username");
 
@@ -118,7 +120,6 @@ public class Menu extends javax.swing.JFrame {
 
     private void pass_fieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pass_fieldActionPerformed
         // TODO add your handling code here:
-        
     }//GEN-LAST:event_pass_fieldActionPerformed
 
     private void admin_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_admin_buttonActionPerformed
@@ -173,7 +174,7 @@ public class Menu extends javax.swing.JFrame {
         
         rs = pst.executeQuery();
         if(rs.next()){
-            user_menu user_page = new user_menu();
+            Sale user_page = new Sale();
             user_page.setVisible(true);
             this.dispose();
             }

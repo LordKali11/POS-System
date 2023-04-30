@@ -8,6 +8,11 @@ package POS;
  *
  * @author hifi
  */
+
+import javax.swing.table.DefaultTableModel;
+import java.sql.*;
+import javax.swing.JOptionPane;
+import java.util.*;
 public class Inventory extends javax.swing.JFrame {
 
     /**
@@ -16,7 +21,41 @@ public class Inventory extends javax.swing.JFrame {
     public Inventory() {
         initComponents();
     }
+    DefaultTableModel model;
 
+    public static Connection getConnection(){
+        Connection con = null;
+        try{
+         con = DriverManager.getConnection("jdbc:mysql://localhost:3306/pos_system?zeroDateTimeBehavior=CONVERT_TO_NULL", "root", "Kalitheni11");
+        }
+        catch(SQLException e){
+        
+        }
+        return con;
+    }
+    
+     
+     public boolean checkProduct(int product){
+           PreparedStatement pst;
+           ResultSet rs;
+           String query = "SELECT * FROM product WHERE id = ?";
+           boolean checkProduct = false;
+           try{
+           pst = getConnection().prepareStatement(query);
+           pst.setInt(1, product);
+           rs = pst.executeQuery();
+           if(rs.next()){
+               checkProduct  = true;
+           }
+           }
+           catch(SQLException ex)
+           {
+               System.out.println("There is an error");
+           }
+           return checkProduct;
+        }
+  
+     
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -26,22 +65,336 @@ public class Inventory extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        add_button = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        barcode_field = new javax.swing.JTextField();
+        name_field = new javax.swing.JTextField();
+        quantity_field = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        price_field = new javax.swing.JTextField();
+        cancel_button = new javax.swing.JButton();
+        show_butt = new javax.swing.JButton();
+        clear_butt = new javax.swing.JButton();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Barcode", "Name", "Quantity", "Price"
+            }
+        ));
+        jScrollPane1.setViewportView(jTable1);
+
+        add_button.setText("Add");
+        add_button.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                add_buttonActionPerformed(evt);
+            }
+        });
+
+        jButton2.setText("Remove");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        quantity_field.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                quantity_fieldActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setText("Barcode");
+
+        jLabel2.setText("Name");
+
+        jLabel3.setText("Quantity");
+
+        jLabel4.setText("Price");
+
+        cancel_button.setText("Exit");
+        cancel_button.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cancel_buttonActionPerformed(evt);
+            }
+        });
+
+        show_butt.setText("show");
+        show_butt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                show_buttActionPerformed(evt);
+            }
+        });
+
+        clear_butt.setText("Update");
+        clear_butt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                clear_buttActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(24, 24, 24)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(add_button, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(show_butt)
+                                .addGap(18, 18, 18)
+                                .addComponent(clear_butt)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(cancel_button, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 86, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(barcode_field)
+                    .addComponent(name_field)
+                    .addComponent(quantity_field)
+                    .addComponent(price_field, javax.swing.GroupLayout.DEFAULT_SIZE, 197, Short.MAX_VALUE))
+                .addContainerGap(83, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(30, 30, 30)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(barcode_field, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(name_field, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(12, 12, 12)
+                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(quantity_field, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel4)
+                            .addComponent(price_field, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(46, 46, 46)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(add_button)
+                    .addComponent(jButton2)
+                    .addComponent(cancel_button))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(show_butt)
+                    .addComponent(clear_butt))
+                .addContainerGap(123, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void quantity_fieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quantity_fieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_quantity_fieldActionPerformed
+
+    private void add_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_add_buttonActionPerformed
+        // TODO add your handling code here:
+        int barcode = Integer.parseInt(barcode_field.getText());
+        String name = name_field.getText();
+        double price = Double.parseDouble(price_field.getText());
+        int quantity = Integer.parseInt(quantity_field.getText());
+        
+        
+        PreparedStatement pst;
+        String query = "INSERT INTO `product`(id, price, product_name,quantity) VALUES (?,?,?,?)";
+        if(barcode_field.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null, "Enter barcode");
+        }
+        else if(name_field.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null, "Enter name of product");
+        }
+        else if(price_field.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null, "Enter price");
+        }
+        else if(quantity_field.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null, "Enter Quantity");
+        }
+        if(checkProduct(barcode)){
+        JOptionPane.showMessageDialog(null, "Product already exist");
+        }
+        else{
+        model = (DefaultTableModel)jTable1.getModel();
+        model.addRow(new Object[]{
+            barcode,
+            name,
+            quantity,
+            price
+    });
+
+        }
+        try{
+         Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/pos_system?zeroDateTimeBehavior=CONVERT_TO_NULL", "root", "Kalitheni11");
+         
+         pst = con.prepareStatement(query);
+         pst.setInt(1,barcode);
+         pst.setDouble(2, price);
+         pst.setString(3, name);
+         pst.setInt(4, quantity);
+         if(pst.executeUpdate()> 0){
+              JOptionPane.showMessageDialog(null, "New Item added");
+         }
+        }
+        
+        catch(SQLException e){
+            System.out.println("connection uncessfully ");
+        }
+        
+    }//GEN-LAST:event_add_buttonActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        int barcode = Integer.parseInt(barcode_field.getText());
+        model = (DefaultTableModel)jTable1.getModel();
+        jTable1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        if(jTable1.isRowSelected(jTable1.getSelectedRow())){
+           model.removeRow(jTable1.getSelectedRow());
+          
+        }
+        if(!(barcode_field.getText().equals(""))){
+        PreparedStatement pst;
+        String query = "DELETE FROM  product where id = ?";
+        try{
+         Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/pos_system?zeroDateTimeBehavior=CONVERT_TO_NULL", "root", "Kalitheni11");
+         
+         pst = con.prepareStatement(query);
+         pst.setInt(1,barcode);
+         if(jTable1.isRowSelected(jTable1.getSelectedRow())){
+           model.removeRow(jTable1.getSelectedRow());
+          
+        }
+         if(pst.execute()){
+              JOptionPane.showMessageDialog(null, "Item removed");
+         }
+        }
+        
+        catch(SQLException e){
+            System.out.println("connection uncessfully ");
+        }
+      }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void cancel_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancel_buttonActionPerformed
+        // TODO add your handling code here:
+        this.hide();
+        Admin admin_menu = new Admin();
+        admin_menu.setVisible(true);
+    }//GEN-LAST:event_cancel_buttonActionPerformed
+
+    private void show_buttActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_show_buttActionPerformed
+        // TODO add your handling code here:
+                ResultSet rs;
+                PreparedStatement stmt;
+        
+        try{
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/pos_system?zeroDateTimeBehavior=CONVERT_TO_NULL", "root", "Kalitheni11");
+            String query_2 = "SELECT id, price, product_name,quantity FROM product";
+             stmt =  con.prepareStatement(query_2);
+            rs = stmt.executeQuery();
+            
+            while(rs.next()){
+                int id = rs.getInt("id");
+                double price_2 = rs.getDouble("price");
+                String product_name = rs.getString("product_name");
+                int quantity_2 = rs.getInt( "quantity");
+                
+                model = (DefaultTableModel)jTable1.getModel();
+                model.addRow(new Object[]{
+                    id,
+                    product_name,
+                    quantity_2,
+                    price_2
+    });
+                
+                 
+        System.out.println("id\tprice\tproduct name\tquantity");
+        System.out.println(id + "\t" + price_2 + "\t" + product_name  + "\t" + quantity_2);
+            }
+            
+            
+        }
+        catch(SQLException e){
+            System.out.println("something is wrong here at line 320");
+        }
+    }//GEN-LAST:event_show_buttActionPerformed
+
+    private void clear_buttActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clear_buttActionPerformed
+        // TODO add your handling code here:
+        model = (DefaultTableModel)jTable1.getModel();
+            
+        model.setRowCount(0);
+                        ResultSet rs;
+                PreparedStatement stmt;
+        
+        try{
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/pos_system?zeroDateTimeBehavior=CONVERT_TO_NULL", "root", "Kalitheni11");
+            String query_2 = "SELECT id, price, product_name,quantity FROM product";
+             stmt =  con.prepareStatement(query_2);
+            rs = stmt.executeQuery();
+            
+            while(rs.next()){
+                int id = rs.getInt("id");
+                double price_2 = rs.getDouble("price");
+                String product_name = rs.getString("product_name");
+                int quantity_2 = rs.getInt( "quantity");
+                
+                model = (DefaultTableModel)jTable1.getModel();
+                model.addRow(new Object[]{
+                    id,
+                    product_name,
+                    quantity_2,
+                    price_2
+    });
+                
+                 
+        System.out.println("id\tprice\tproduct name\tquantity");
+        System.out.println(id + "\t" + price_2 + "\t" + product_name  + "\t" + quantity_2);
+            }
+            
+            
+        }
+        catch(SQLException e){
+            System.out.println("something is wrong here at line 320");
+        }
+        
+         
+    }//GEN-LAST:event_clear_buttActionPerformed
+    
     /**
      * @param args the command line arguments
      */
@@ -78,5 +431,20 @@ public class Inventory extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton add_button;
+    private javax.swing.JTextField barcode_field;
+    private javax.swing.JButton cancel_button;
+    private javax.swing.JButton clear_butt;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTable1;
+    private javax.swing.JTextField name_field;
+    private javax.swing.JTextField price_field;
+    private javax.swing.JTextField quantity_field;
+    private javax.swing.JButton show_butt;
     // End of variables declaration//GEN-END:variables
 }

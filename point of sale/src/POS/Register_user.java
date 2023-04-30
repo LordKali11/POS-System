@@ -5,6 +5,7 @@
 package POS;
 
 import java.sql.*;
+import javax.swing.JOptionPane;
 
 
 /**
@@ -35,13 +36,37 @@ public class Register_user extends javax.swing.JFrame {
            String query = "SELECT * FROM login WHERE username = ?";
            boolean checkUser = false;
            try{
-               
            pst = getConnection().prepareStatement(query);
+           pst.setString(1, user_n);
+           rs = pst.executeQuery();
+           if(rs.next()){
+               checkUser  = true;
+           }
            }
            catch(SQLException ex)
            {
-               
+               System.out.println("There is an error");
            }
+           return checkUser;
+        }
+    public boolean checkAdmin(int isAdmin){
+           PreparedStatement pst;
+           ResultSet rs;
+           String query = "SELECT * FROM login WHERE isAdmin = ?";
+           boolean checkUser = false;
+           try{
+           pst = getConnection().prepareStatement(query);
+           pst.setInt(1,isAdmin );
+           rs = pst.executeQuery();
+           if(rs.next()){
+               checkUser  = true;
+           }
+           }
+           catch(SQLException ex)
+           {
+               System.out.println("There is an error");
+           }
+           return checkUser;
         }
 
     /**
@@ -94,6 +119,11 @@ public class Register_user extends javax.swing.JFrame {
         });
 
         cancel_butt.setText("Cancel");
+        cancel_butt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cancel_buttActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -169,13 +199,53 @@ public class Register_user extends javax.swing.JFrame {
     private void add_buttActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_add_buttActionPerformed
         // TODO add your handling code here:
         
+        String pass = pass_field.getText();
+        String c_pass = c_pass_field.getText();
+        String user_name = user_field.getText();
+        int isAdmin = 0;
+        if(user_name.equals("")){
+            JOptionPane.showMessageDialog(null, "Add A Username");
+        }
+        else if (pass.equals("")){
+            JOptionPane.showMessageDialog(null, "Add A Password");
+        }
+        else if (!pass.equals(c_pass)){
+            JOptionPane.showMessageDialog(null, "Retype The Password Again");
+        }
+        else if (isAdmin_checkbx.isSelected()){
+            isAdmin = 1;
+            
+        }
+        if(checkUser(user_name) && checkAdmin(isAdmin) || checkUser(user_name))
+        {
+            JOptionPane.showMessageDialog(null, "This Username Already Exist");
+        }
+        
+        PreparedStatement pst;
+        String query = "INSERT INTO `login`(`username`, `password`, `isAdmin`) VALUES (?,?,?)";
         try{
          Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/pos_system?zeroDateTimeBehavior=CONVERT_TO_NULL", "root", "Kalitheni11");
+         
+         pst = con.prepareStatement(query);
+         pst.setString(1,user_name);
+         pst.setString(2, pass);
+         pst.setInt(3, isAdmin);
+         if(pst.executeUpdate()> 0){
+              JOptionPane.showMessageDialog(null, "New User Added");
+         }
         }
+        
         catch(SQLException e){
             System.out.println("connection uncessfully ");
         }
     }//GEN-LAST:event_add_buttActionPerformed
+
+    private void cancel_buttActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancel_buttActionPerformed
+        // TODO add your handling code here:
+        Admin admin = new Admin();
+        admin.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_cancel_buttActionPerformed
 
     /**
      * @param args the command line arguments
