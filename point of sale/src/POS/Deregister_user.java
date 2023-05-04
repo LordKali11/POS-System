@@ -124,6 +124,7 @@ public class Deregister_user extends javax.swing.JFrame {
     private void cancel_buttActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancel_buttActionPerformed
         // TODO add your handling code here:
         Admin admin = new Admin();
+        this.dispose();
         admin.setVisible(true);
     }//GEN-LAST:event_cancel_buttActionPerformed
 

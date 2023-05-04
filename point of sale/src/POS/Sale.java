@@ -64,7 +64,7 @@ public static Connection getConnection(){
         amount_paid_l = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         change_label = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        exit_butt = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -138,10 +138,10 @@ public static Connection getConnection(){
 
         jLabel8.setText("Amount Paid");
 
-        jButton1.setText("Exit");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        exit_butt.setText("Exit");
+        exit_butt.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                exit_buttActionPerformed(evt);
             }
         });
 
@@ -194,7 +194,7 @@ public static Connection getConnection(){
                                 .addGap(18, 18, 18)
                                 .addComponent(print_button)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jButton1)
+                                .addComponent(exit_butt)
                                 .addGap(131, 131, 131)
                                 .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
@@ -242,7 +242,7 @@ public static Connection getConnection(){
                         .addComponent(add_butt)
                         .addComponent(reset_butt)
                         .addComponent(print_button)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(exit_butt, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jLabel7)
                     .addComponent(change_label, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 93, Short.MAX_VALUE))
@@ -303,6 +303,9 @@ public static Connection getConnection(){
         if(barcode.equals("")){
             JOptionPane.showMessageDialog(null, "Enter the barcode");
         }
+        else if(quantity_field.getText().equals("")){
+            JOptionPane.showMessageDialog(null,"Enter quantity");
+        }
         
         else{
         double price = Double.parseDouble(price_field.getText());
@@ -360,12 +363,12 @@ public static Connection getConnection(){
         }
     }//GEN-LAST:event_print_buttonActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void exit_buttActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exit_buttActionPerformed
         // TODO add your handling code here:
         Menu menu_page = new Menu();
         menu_page.setVisible(true);
         this.dispose();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_exit_buttActionPerformed
 
     /**
      * @param args the command line arguments
@@ -407,8 +410,8 @@ public static Connection getConnection(){
     private javax.swing.JTextField amount_paid_l;
     private javax.swing.JTextField barcode_field;
     private javax.swing.JLabel change_label;
+    private javax.swing.JButton exit_butt;
     private javax.swing.JTextField item_field;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

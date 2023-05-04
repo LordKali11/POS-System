@@ -68,7 +68,7 @@ public class Inventory extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         add_button = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        delete_butt = new javax.swing.JButton();
         barcode_field = new javax.swing.JTextField();
         name_field = new javax.swing.JTextField();
         quantity_field = new javax.swing.JTextField();
@@ -100,10 +100,10 @@ public class Inventory extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setText("Remove");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        delete_butt.setText("Remove");
+        delete_butt.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                delete_buttActionPerformed(evt);
             }
         });
 
@@ -160,7 +160,7 @@ public class Inventory extends javax.swing.JFrame {
                                 .addComponent(clear_butt)
                                 .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(delete_butt, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(cancel_button, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                 .addGap(18, 18, 18)
@@ -207,7 +207,7 @@ public class Inventory extends javax.swing.JFrame {
                 .addGap(46, 46, 46)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(add_button)
-                    .addComponent(jButton2)
+                    .addComponent(delete_butt)
                     .addComponent(cancel_button))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -233,16 +233,16 @@ public class Inventory extends javax.swing.JFrame {
         
         PreparedStatement pst;
         String query = "INSERT INTO `product`(id, price, product_name,quantity) VALUES (?,?,?,?)";
-        if(barcode_field.getText().isEmpty()){
+        if(barcode_field.getText().equals("")){
             JOptionPane.showMessageDialog(null, "Enter barcode");
         }
-        else if(name_field.getText().isEmpty()){
+        else if(name_field.getText().equals("")){
             JOptionPane.showMessageDialog(null, "Enter name of product");
         }
-        else if(price_field.getText().isEmpty()){
+        else if(price_field.getText().equals("")){
             JOptionPane.showMessageDialog(null, "Enter price");
         }
-        else if(quantity_field.getText().isEmpty()){
+        else if(quantity_field.getText().equals("")){
             JOptionPane.showMessageDialog(null, "Enter Quantity");
         }
         if(checkProduct(barcode)){
@@ -277,10 +277,13 @@ public class Inventory extends javax.swing.JFrame {
         
     }//GEN-LAST:event_add_buttonActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void delete_buttActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_delete_buttActionPerformed
         // TODO add your handling code here:
         int barcode = Integer.parseInt(barcode_field.getText());
         model = (DefaultTableModel)jTable1.getModel();
+        if(barcode_field.getText().equals("")){
+            JOptionPane.showMessageDialog(null,"Enter barcode");
+        }
         jTable1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         if(jTable1.isRowSelected(jTable1.getSelectedRow())){
            model.removeRow(jTable1.getSelectedRow());
@@ -307,13 +310,14 @@ public class Inventory extends javax.swing.JFrame {
             System.out.println("connection uncessfully ");
         }
       }
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_delete_buttActionPerformed
 
     private void cancel_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancel_buttonActionPerformed
         // TODO add your handling code here:
         this.hide();
         Admin admin_menu = new Admin();
         admin_menu.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_cancel_buttonActionPerformed
 
     private void show_buttActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_show_buttActionPerformed
@@ -435,7 +439,7 @@ public class Inventory extends javax.swing.JFrame {
     private javax.swing.JTextField barcode_field;
     private javax.swing.JButton cancel_button;
     private javax.swing.JButton clear_butt;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton delete_butt;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
